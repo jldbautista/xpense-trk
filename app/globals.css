@@ -1,26 +1,204 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #FFF8E8;
+  --foreground: #2D2A32;
+  --card: #FFFFFF;
+  --color-card: #ffffff;
+  --color-green: #5BAE4A;
+  --color-blue: #5D9CEC;
+  --color-gold: #F7C948;
+  --color-red: #E76F51;
+  --color-purple: #B388FF;
+  --border: #2D2A32;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: var(--font-vt323);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-vt323), sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.pixel-art {
+  image-rendering: pixelated;
+}
+
+/* ──────────────────────────────────────
+   Pixel Art Reusable Classes
+   ────────────────────────────────────── */
+
+.pixel-border {
+  border: 4px solid #2D2A32;
+}
+
+.pixel-shadow {
+  box-shadow: 4px 4px 0px #2D2A32;
+}
+
+.pixel-card {
+  border: 4px solid #2D2A32;
+  box-shadow: 6px 6px 0px #2D2A32;
+  background-color: #ffffff;
+}
+
+.tracker-card {
+  border: 3px solid #2D2A32;
+  box-shadow: 4px 4px 0 #2D2A32;
+  background-color: #FFFFFF;
+}
+
+.tracker-input {
+  width: 100%;
+  border: 3px solid #2D2A32;
+  background-color: #FFFFFF;
+  padding: 8px 14px;
+  color: #2D2A32;
+  font-family: var(--font-vt323), sans-serif;
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  line-height: 1;
+  box-shadow: 3px 3px 0 rgb(45 42 50 / 0.12);
+}
+
+.pixel-btn {
+  border: 4px solid #2D2A32;
+  box-shadow: 4px 4px 0px #2D2A32;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-vt323), sans-serif;
+  font-weight: 700;
+}
+
+.pixel-btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #2D2A32;
+}
+
+.pixel-btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: none;
+}
+
+.pixel-container {
+  width: 100%;
+  max-width: 1360px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.xp-bar {
+  border: 3px solid #2D2A32;
+  background: #FFF8E8;
+  overflow: hidden;
+}
+
+.xp-bar-fill {
+  height: 100%;
+  background: #5BAE4A;
+  transition: width 0.5s ease;
+}
+
+/* ──────────────────────────────────────
+   Auth / Form Components
+   ────────────────────────────────────── */
+
+.pixel-input {
+  border: 4px solid #2D2A32;
+  background: #ffffff;
+  padding: 12px 16px;
+  outline: none;
+  font-family: var(--font-vt323), sans-serif;
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: #2D2A32;
+  width: 100%;
+  transition: border-color 0.1s ease, box-shadow 0.1s ease;
+}
+
+.pixel-input:focus {
+  border-color: #5D9CEC;
+  box-shadow: 2px 2px 0 #5D9CEC;
+}
+
+.pixel-input--error {
+  border-color: #E76F51;
+}
+
+.pixel-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  border: 4px solid #2D2A32;
+  background: white;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.1s ease, border-color 0.1s ease;
+}
+
+.pixel-checkbox:checked {
+  background: #5BAE4A;
+}
+
+.pixel-checkbox:checked::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: -1px;
+  width: 6px;
+  height: 12px;
+  border: 3px solid white;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
+.pixel-checkbox:focus {
+  outline: none;
+  border-color: #5D9CEC;
+  box-shadow: 2px 2px 0 #5D9CEC;
+}
+
+/* ──────────────────────────────────────
+   Motion preferences
+   ────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .pixel-btn,
+  .pixel-input,
+  .pixel-checkbox {
+    transition: none;
+  }
+}
+
+@media (min-width: 640px) {
+  .pixel-container {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
 }
