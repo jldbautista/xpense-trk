@@ -6,9 +6,11 @@ import PixelCatCard from './PixelCatCard'
 import QuickSummaryCard from './QuickSummaryCard'
 import TrackerHeader from './TrackerHeader'
 import type { MonthOption } from '@/app/lib/expenses'
+import type { CompanionName } from '@/app/lib/companions'
 
 type ExpenseTrackerProps = {
   displayName: string
+  companion: CompanionName
   page?: number
   query?: string
   category?: string
@@ -18,6 +20,7 @@ type ExpenseTrackerProps = {
 
 export default function ExpenseTracker({
   displayName,
+  companion,
   page = 1,
   query,
   category,
@@ -26,7 +29,7 @@ export default function ExpenseTracker({
 }: ExpenseTrackerProps) {
   return (
     <main className="min-h-screen bg-[#FFF8E8] text-[#2D2A32]">
-      <TrackerHeader displayName={displayName} />
+      <TrackerHeader displayName={displayName} companion={companion} />
 
       <div className="mx-auto max-w-[1480px] px-4 py-8 sm:px-8">
         <header>
@@ -42,7 +45,7 @@ export default function ExpenseTracker({
             <AddExpenseCard />
           </div>
           <div className="xl:col-start-1 xl:row-start-2">
-            <PixelCatCard />
+            <PixelCatCard companion={companion} />
           </div>
           <div className="xl:col-start-2 xl:row-start-1">
             <BudgetCard />

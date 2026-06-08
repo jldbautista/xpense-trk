@@ -44,7 +44,7 @@ export default function HeroSection() {
             </h1>
 
             <p className="mt-6 max-w-lg text-base font-bold leading-7 text-[#2D2A32]/70 sm:text-xl">
-              xpense.trk helps you log expenses, follow your monthly budget, and see how your Pixel Cat companion reacts as your spending changes.
+              xpense.trk helps you log expenses, follow your monthly budget, and see how your pixel companion reacts as your spending changes.
             </p>
 
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap">

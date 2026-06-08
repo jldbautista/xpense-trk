@@ -60,7 +60,7 @@ export default function SignupForm() {
     setServerError('');
     if (!validate()) return;
     setPending(true);
-    const result = await signup({ displayName, email, password });
+    const result = await signup({ displayName, email, password, companion });
     if (result?.error) {
       setServerError(result.error);
       setPending(false);

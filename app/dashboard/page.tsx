@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import ExpenseTracker from '@/app/components/tracker/ExpenseTracker'
 import { createClient } from '@/app/lib/supabase/server'
 import { getAvailableMonths } from '@/app/lib/expenses'
+import { getCompanionName } from '@/app/lib/companions'
 
 type DashboardPageProps = {
   searchParams: Promise<{ page?: string; q?: string; category?: string; month?: string }>
@@ -22,9 +23,12 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
       ? user.user_metadata.display_name
       : (user.email ?? 'hello@pixel.com')
 
+  const companion = getCompanionName(user.user_metadata?.companion)
+
   return (
     <ExpenseTracker
       displayName={displayName}
+      companion={companion}
       page={currentPage}
       query={q}
       category={category}
