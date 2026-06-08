@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import PixelInput from '../ui/PixelInput';
 import PixelButton from '../ui/PixelButton';
@@ -15,6 +16,11 @@ interface Errors {
   confirmPassword?: string;
 }
 
+const companions = [
+  { name: 'Mochi', image: '/cat-head.png', alt: 'Gray cat companion', imageScale: '' },
+  { name: 'Spud', image: '/spud-head.png', alt: 'Spud companion', imageScale: 'scale-125' },
+] as const;
+
 export default function SignupForm() {
   const [displayName,     setDisplayName]     = useState('');
   const [email,           setEmail]           = useState('');
@@ -23,6 +29,7 @@ export default function SignupForm() {
   const [errors,          setErrors]          = useState<Errors>({});
   const [serverError,     setServerError]     = useState('');
   const [pending,         setPending]         = useState(false);
+  const [companion,       setCompanion]       = useState<typeof companions[number]['name']>('Mochi');
 
   function validate(): boolean {
     const e: Errors = {};
@@ -102,6 +109,44 @@ export default function SignupForm() {
           onChange={(e) => setConfirmPassword(e.target.value)}
           error={errors.confirmPassword}
         />
+      </div>
+
+      <div>
+        <p className="mb-2 text-sm font-bold uppercase tracking-[0.15em] text-[#2D2A32]/70">
+          Pick your companion
+        </p>
+        <div className="flex justify-center gap-4">
+          {companions.map((c) => {
+            const selected = companion === c.name;
+            return (
+              <button
+                key={c.name}
+                type="button"
+                onClick={() => setCompanion(c.name)}
+                aria-pressed={selected}
+                className={`w-24 text-center transition-transform ${selected ? 'scale-105' : ''}`}
+              >
+                <div
+                  className={`overflow-hidden border-4 bg-[#FFF8E8] p-1 shadow-[3px_3px_0_#2D2A32] ${
+                    selected ? 'border-[#5BAE4A] bg-[#5BAE4A]/20' : 'border-[#2D2A32]'
+                  }`}
+                >
+                  <Image
+                    src={c.image}
+                    alt={c.alt}
+                    width={1254}
+                    height={1254}
+                    loading="eager"
+                    className={`pixel-art h-auto w-full ${c.imageScale}`}
+                  />
+                </div>
+                <p className={`mt-1 text-base font-bold uppercase ${selected ? 'text-[#5BAE4A]' : 'text-[#2D2A32]/70'}`}>
+                  {c.name}
+                </p>
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <PixelButton type="submit" disabled={pending}>
