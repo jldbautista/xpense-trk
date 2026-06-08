@@ -21,7 +21,7 @@ export default function HeroSection() {
           <div className="relative z-10">
             <div className="mb-6 inline-block border-4 border-[#2D2A32] bg-[#B388FF] px-4 py-2 shadow-[4px_4px_0_#2D2A32]">
               <span className="text-md font-bold uppercase tracking-[0.18em] text-white">
-                Welcome Kitty Lover!
+                Welcome Kitty and Spud Lover!
               </span>
             </div>
 
@@ -84,9 +84,9 @@ export default function HeroSection() {
           </div>
 
           <div className="relative mx-auto flex w-full max-w-[650px] items-center justify-center lg:translate-x-12 lg:-translate-y-4 lg:max-w-[610px] xl:max-w-[650px]">
-            <div className="absolute inset-x-[8%] bottom-[8%] top-[10%] border-4 border-[#2D2A32] bg-[#5D9CEC] shadow-[10px_10px_0_#2D2A32]" />
+            <div className="absolute inset-x-[8%] bottom-[8%] top-[10%] border-4 border-[#2D2A32] bg-white shadow-[10px_10px_0_#2D2A32]" />
             <Image
-              src="/dashboard-preview.png"
+              src="/home-page.png"
               alt="Pixel-art preview of the xpense.trk dashboard showing expense, budget, pixel cat, and quick summary cards"
               width={1448}
               height={1086}
