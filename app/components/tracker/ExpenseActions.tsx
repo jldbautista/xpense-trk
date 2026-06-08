@@ -7,18 +7,22 @@ import type { Expense } from '@/app/lib/expenses'
 
 export default function ExpenseActions({ expense }: { expense: Expense }) {
   const [editing, setEditing] = useState(false)
+  const [confirmingDelete, setConfirmingDelete] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [deleteError, setDeleteError] = useState('')
 
-  async function handleDelete() {
-    if (!window.confirm(`Delete "${expense.description}"? This can't be undone.`)) return
-
+  async function handleConfirmDelete() {
     setDeleteError('')
     setDeleting(true)
     const result = await deleteExpense(expense.id)
     setDeleting(false)
 
-    if (result?.error) setDeleteError(result.error)
+    if (result?.error) {
+      setDeleteError(result.error)
+      return
+    }
+
+    setConfirmingDelete(false)
   }
 
   return (
@@ -27,7 +31,7 @@ export default function ExpenseActions({ expense }: { expense: Expense }) {
         <ActionButton color="blue" onClick={() => setEditing(true)}>
           Edit
         </ActionButton>
-        <ActionButton color="red" onClick={handleDelete} disabled={deleting}>
+        <ActionButton color="red" onClick={() => setConfirmingDelete(true)} disabled={deleting}>
           {deleting ? 'Deleting…' : 'Delete'}
         </ActionButton>
       </div>
@@ -39,7 +43,64 @@ export default function ExpenseActions({ expense }: { expense: Expense }) {
       )}
 
       {editing && <EditExpenseModal expense={expense} onClose={() => setEditing(false)} />}
+
+      {confirmingDelete && (
+        <ConfirmDeleteModal
+          expense={expense}
+          deleting={deleting}
+          onCancel={() => setConfirmingDelete(false)}
+          onConfirm={handleConfirmDelete}
+        />
+      )}
     </>
+  )
+}
+
+function ConfirmDeleteModal({
+  expense,
+  deleting,
+  onCancel,
+  onConfirm,
+}: {
+  expense: Expense
+  deleting: boolean
+  onCancel: () => void
+  onConfirm: () => void
+}) {
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[#2D2A32]/60 p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Confirm delete"
+    >
+      <div className="tracker-card w-full max-w-md bg-[#FFF8E8] p-6">
+        <h3 className="text-3xl font-bold uppercase leading-none text-[#E76F51]">Delete Expense</h3>
+
+        <p className="mt-4 text-xl font-bold text-[#2D2A32]">
+          Delete &quot;{expense.description}&quot;? This can&apos;t be undone.
+        </p>
+
+        <div className="mt-6 flex justify-end gap-3">
+          <button
+            type="button"
+            onClick={onCancel}
+            disabled={deleting}
+            className="border-[3px] border-[#2D2A32] bg-white px-5 py-2 text-xl font-bold uppercase text-[#2D2A32] shadow-[3px_3px_0_#2D2A32] transition-[transform,box-shadow] hover:translate-x-px hover:translate-y-px hover:shadow-[2px_2px_0_#2D2A32] disabled:pointer-events-none disabled:opacity-60"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={onConfirm}
+            disabled={deleting}
+            className="border-[3px] border-[#2D2A32] bg-[#E76F51] px-5 py-2 text-xl font-bold uppercase text-white shadow-[3px_3px_0_#2D2A32] transition-[transform,box-shadow] hover:translate-x-px hover:translate-y-px hover:shadow-[2px_2px_0_#2D2A32] disabled:pointer-events-none disabled:opacity-60"
+          >
+            {deleting ? 'Deleting…' : 'Delete'}
+          </button>
+        </div>
+      </div>
+    </div>
   )
 }
 
