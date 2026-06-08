@@ -83,4 +83,4 @@ proxy.ts          Auth middleware (redirects based on session state)
 
 ## Database
 
-This project uses Supabase Postgres with Row Level Security enabled. Each table's policies restrict access so that users can only read and modify their own expenses and budget. See `supabase/migrations` for the full schema.
+This project uses Supabase Postgres with Row Level Security enabled. 
