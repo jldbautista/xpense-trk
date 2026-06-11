@@ -7,6 +7,7 @@ export async function signup(data: {
   displayName: string
   email: string
   password: string
+  companion: string
 }): Promise<{ error?: string }> {
   const supabase = await createClient()
 
@@ -16,6 +17,7 @@ export async function signup(data: {
     options: {
       data: {
         display_name: data.displayName,
+        companion: data.companion,
       },
     },
   })

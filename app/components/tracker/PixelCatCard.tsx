@@ -1,24 +1,12 @@
 import Image from 'next/image'
 import { getMonthlyBudget } from '@/app/lib/budget'
 import { getMonthlySummary } from '@/app/lib/expenses'
+import { getCompanionMoodImage, type CompanionMood, type CompanionName } from '@/app/lib/companions'
 
-type CatMood =
-  | 'very-happy'
-  | 'happy'
-  | 'neutral'
-  | 'concerned'
-  | 'worried'
-  | 'sad'
-  | 'over-budget'
+type CatMood = CompanionMood
 
-const catMoodImages: Record<CatMood, string> = {
-  'very-happy': '/cat-very-happy.png',
-  happy: '/cat-happy.png',
-  neutral: '/cat-neutral.png',
-  concerned: '/cat-concerned.png',
-  worried: '/cat-worried.png',
-  sad: '/cat-sad.png',
-  'over-budget': '/cat-over-budget.png',
+type PixelCatCardProps = {
+  companion: CompanionName
 }
 
 const catMoodLabels: Record<CatMood, string> = {
@@ -52,17 +40,18 @@ function getCatMood(percentage: number): CatMood {
   return 'over-budget'
 }
 
-export default async function PixelCatCard() {
+export default async function PixelCatCard({ companion }: PixelCatCardProps) {
   const [monthlyBudget, summary] = await Promise.all([getMonthlyBudget(), getMonthlySummary()])
+  const title = `Pixel ${companion}`
 
   if (!monthlyBudget) {
     return (
       <section className="tracker-card flex h-full flex-col items-center justify-center p-5 text-center sm:p-6">
-        <h2 className="text-3xl font-bold uppercase leading-none text-[#168C2D]">Pixel Cat</h2>
+        <h2 className="text-3xl font-bold uppercase leading-none text-[#168C2D]">{title}</h2>
 
         <Image
-          src={catMoodImages.neutral}
-          alt="Pixel cat mood: neutral"
+          src={getCompanionMoodImage(companion, 'neutral')}
+          alt="Pixel companion mood: neutral"
           width={1254}
           height={1254}
           className="pixel-art my-2 h-44 w-44 shrink-0 object-contain sm:h-52 sm:w-52 xl:h-60 xl:w-60"
@@ -82,11 +71,11 @@ export default async function PixelCatCard() {
 
   return (
     <section className="tracker-card flex h-full flex-col items-center justify-center p-5 text-center sm:p-6">
-      <h2 className="text-3xl font-bold uppercase leading-none text-[#168C2D]">Pixel Cat</h2>
+      <h2 className="text-3xl font-bold uppercase leading-none text-[#168C2D]">{title}</h2>
 
       <Image
-        src={catMoodImages[currentMood]}
-        alt={`Pixel cat mood: ${catMoodLabels[currentMood].toLowerCase()}`}
+        src={getCompanionMoodImage(companion, currentMood)}
+        alt={`Pixel companion mood: ${catMoodLabels[currentMood].toLowerCase()}`}
         width={1254}
         height={1254}
         className="pixel-art my-2 h-44 w-44 shrink-0 object-contain sm:h-52 sm:w-52 xl:h-60 xl:w-60"

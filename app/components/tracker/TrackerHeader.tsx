@@ -1,12 +1,14 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { logout } from '@/app/actions/auth'
+import { getCompanionHeadImage, type CompanionName } from '@/app/lib/companions'
 
 type TrackerHeaderProps = {
   displayName: string
+  companion: CompanionName
 }
 
-export default function TrackerHeader({ displayName }: TrackerHeaderProps) {
+export default function TrackerHeader({ displayName, companion }: TrackerHeaderProps) {
   return (
     <header className="border-b-[3px] border-[#2D2A32] bg-[#F7C948] shadow-[0_4px_0_#2D2A32]">
       <div className="mx-auto flex min-h-20 max-w-[1480px] items-center justify-between gap-4 px-4 py-2 sm:px-8">
@@ -27,7 +29,7 @@ export default function TrackerHeader({ displayName }: TrackerHeaderProps) {
 
         <div className="flex min-w-0 items-center gap-3 sm:gap-5">
           <Image
-            src="/cat-head.png"
+            src={getCompanionHeadImage(companion)}
             alt=""
             aria-hidden="true"
             width={1254}
